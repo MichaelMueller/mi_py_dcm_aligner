@@ -1,0 +1,6 @@
+numpy
+pydicom
+pyvista
+SimpleITK
+pydantic
+mi_py_essentials @ git+https://github.com/MichaelMueller/mi_py_essentials.git
