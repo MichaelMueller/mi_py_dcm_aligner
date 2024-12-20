@@ -2,7 +2,7 @@ import os
 import pydicom
 
 from .dcm_series import DcmSeries
-from .structs.dcm_series_dataset import DcmSeriesDataSet
+from .dcm_series_dataset import DcmSeriesDataSet
 
 class DcmStudy:
     

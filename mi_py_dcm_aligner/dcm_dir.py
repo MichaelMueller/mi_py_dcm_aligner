@@ -6,9 +6,9 @@ from pydicom.errors import InvalidDicomError
 from .dcm_study import DcmStudy
 from .dcm_series import DcmSeries
 from .dcm_file import DcmFile
-from .structs.dcm_series_dataset import DcmSeriesDataSet
+from .dcm_series_dataset import DcmSeriesDataSet
 
-class DcmFolder:
+class DcmDir:
     
     def __init__(self, directory:str) -> None:
         self._directory = directory
@@ -58,7 +58,7 @@ class DcmFolder:
         repr = repr.replace("\n", "\n  ")
         return repr
     
-    def parse(self) -> "DcmFolder":
+    def parse(self) -> "DcmDir":
         directory = self._directory
         self._dcm_studies = {}
         
