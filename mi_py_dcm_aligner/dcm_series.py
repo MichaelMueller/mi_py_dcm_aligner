@@ -1,12 +1,22 @@
 import os
 from typing import Union
+
 import pydicom
 import SimpleITK as sitk
+import aioshutil
 
 from .dcm_file import DcmFile
+from .dcm_series_dataset import DcmSeriesDataSet
 from .image_volume import ImageVolume
 
 class DcmSeries:
+    
+    def from_dcm_series_dataset( dcm_series_dataset:DcmSeriesDataSet, idx:int ) -> "DcmSeries":
+        series = DcmSeries( dcm_series_dataset.uids[idx] )
+        
+        for file_path in dcm_series_dataset.files[idx]:
+            series.add_dcm_file( DcmFile( file_path ) )
+        return series
     
     def __init__(self, series_uid:str) -> None:
         self._series_uid = series_uid

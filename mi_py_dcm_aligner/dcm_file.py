@@ -1,9 +1,10 @@
+from typing import Optional
 import os
 import pydicom
 
 class DcmFile:
     
-    def __init__(self, path:str, meta_data:pydicom.Dataset) -> None:
+    def __init__(self, path:str, meta_data:Optional[pydicom.Dataset]=None) -> None:
         self._path = path
         self._meta_data = meta_data
         
@@ -11,6 +12,9 @@ class DcmFile:
         return self._path        
 
     def meta_data( self ) -> pydicom.Dataset:
+        if not self._meta_data:
+            self._meta_data = pydicom.dcmread(self.path(), stop_before_pixels=True)
+            
         return self._meta_data                
     
     def instance_number( self, default_val:int|None=None ) -> str:
