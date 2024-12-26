@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mi_py_dcm_aligner"
-version = "0.3.0" # Ensure the version matches `App.VERSION` dynamically if needed
+version = "0.3.1" # Ensure the version matches `App.VERSION` dynamically if needed
 authors = [
     { name = "Michael Mueller", email = "michaelmuelleronline@gmx.de" }
 ]
@@ -15,6 +15,7 @@ description = "A tool for DICOM alignment" # Adjust this to match the actual des
 readme = "README.md"
 license = { text = "Apache-2.0" } # Specify your license here if available
 dynamic = ["dependencies"] # Changed
+requires-python = ">=3.10"
 
 [project.urls]
 "Source Code" = "https://github.com/MichaelMueller/mi_py_dcm_aligner.git"
