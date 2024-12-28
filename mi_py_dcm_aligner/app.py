@@ -12,7 +12,6 @@ from .dcm_series import DcmSeries
 from .dcm_series_dataset import DcmSeriesDataSet
 from .functor import Functor    
 from .create_dcm_series_from_pngs import CreateDcmSeriesFromPngs
-from .render_args import RenderArgs
 from .renderer import Renderer
 
 class App( Functor ):
@@ -20,6 +19,11 @@ class App( Functor ):
     def __init__(self, args:list[str]|None=None) -> None:
         super().__init__()
         self._args = args
+        
+    async def start_server( self,  host:str="127.0.0.1", port:int=8000, reload:bool=False ) -> None:
+        from .web_service import Webservice
+        webservice = Webservice( host=host, port=port, reload=reload )
+        await webservice.exec()
         
     async def parse_dir( self, path:str, json_output_path:str ) -> None:
         dcm_folder = DcmDir( path ).parse()        
@@ -95,5 +99,6 @@ class App( Functor ):
         cli_app.add_function( self.parse_dir )
         cli_app.add_function( self.dcm_align )
         cli_app.add_function( self.render )
+        cli_app.add_function( self.start_server )
         await cli_app.exec()
         
