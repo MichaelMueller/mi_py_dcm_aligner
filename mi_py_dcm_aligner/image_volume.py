@@ -45,6 +45,14 @@ class ImageVolume(Renderable):
     def data(self) -> np.ndarray:
         return self._data
 
+    def scale_z( self, scale_factor_z:float, order=3 ) -> "ImageVolume":
+        scaling_factors = (scale_factor_z, 1.0, 1.0)
+
+        # Apply the zoom function
+        stretched_volume = zoom(self._data, scaling_factors, order=order)  # Use 'order=3' for cubic interpolation
+
+        return ImageVolume( stretched_volume )     
+
     def poly_data(self) -> pv.PolyData:      
         grid = pv.PolyData(np.argwhere(self._data))
         grid.point_data["values"] = np.ones(len(grid.points))

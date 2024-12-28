@@ -12,6 +12,8 @@ from .dcm_series import DcmSeries
 from .dcm_series_dataset import DcmSeriesDataSet
 from .functor import Functor    
 from .create_dcm_series_from_pngs import CreateDcmSeriesFromPngs
+from .render_args import RenderArgs
+from .renderer import Renderer
 
 class App( Functor ):
 
@@ -19,12 +21,23 @@ class App( Functor ):
         super().__init__()
         self._args = args
         
-    async def parse_dcm_dir( self, path:str, json_output_path:str ) -> None:
+    async def parse_dir( self, path:str, json_output_path:str ) -> None:
         dcm_folder = DcmDir( path ).parse()        
         series_data_set = dcm_folder.series_data_set()
         logging.info(f'Writing outputs to {json_output_path}')
         await AsyncUtils.write_json( json_output_path, series_data_set.model_dump() )
         
+    async def render( self, series_data_set:DcmSeriesDataSet, series_index:int, coord_sys:Optional[float]=None, cmap:str="viridis", opacity:str='sigmoid' ) -> None:
+        renderer = Renderer()
+        series:DcmSeries = DcmSeries.from_dcm_series_dataset( series_data_set, series_index )        
+        image, _ = series.load_volume() 
+        if coord_sys != None:
+            renderer.add_coord_sys( coord_sys )
+
+        image = image.scale_z(5)
+        renderer.add_image_volume( image, cmap=cmap, opacity=opacity )
+        renderer.show()
+
     async def dcm_align( self,
                         dcm_series_json_file:str, 
                         series_idx:int, 
@@ -79,7 +92,8 @@ class App( Functor ):
         
     async def exec( self ) -> None:
         cli_app = CliApp( self.description() )
-        cli_app.add_function( self.parse_dcm_dir )
+        cli_app.add_function( self.parse_dir )
         cli_app.add_function( self.dcm_align )
+        cli_app.add_function( self.render )
         await cli_app.exec()
         

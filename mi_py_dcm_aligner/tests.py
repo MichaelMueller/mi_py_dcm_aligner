@@ -1,5 +1,5 @@
 import logging
-from .test import Test    
+from mi_py_essentials import Test    
 from .image_volume_test import ImageVolumeTest    
     
 class Tests( Test ):

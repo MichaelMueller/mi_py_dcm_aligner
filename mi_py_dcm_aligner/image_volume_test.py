@@ -1,6 +1,6 @@
 import numpy as np
 
-from .test import Test
+from mi_py_essentials.test import Test
 from .create_transformation_matrix import CreateTransformationMatrix
 from .image_volume import ImageVolume
 
