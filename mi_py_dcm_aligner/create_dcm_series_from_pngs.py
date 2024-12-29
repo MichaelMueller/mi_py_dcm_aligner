@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import pydicom, pydicom.uid
 
-from .functor import Functor
+from . import Functor
 
 class CreateDcmSeriesFromPngs(Functor):
     

@@ -5,8 +5,7 @@ import pydicom
 import SimpleITK as sitk
 import aioshutil
 
-from .dcm_file import DcmFile
-from .dcm_series_dataset import DcmSeriesDataSet
+from . import DcmSeriesDataSet, DcmFile
 from .image_volume import ImageVolume
 
 class DcmSeries:

@@ -3,10 +3,10 @@ import logging, asyncio
 from typing import Optional, Dict
 # pip modules
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from uvicorn import Config, Server
 # local
-from .functor import Functor
-from .align_args import AlignArgs
+from . import Functor, Align, AlignArgs, AlignResults
 
 class Webservice( Functor ):
 
@@ -18,10 +18,10 @@ class Webservice( Functor ):
 
     async def align(self, request: Request) -> Dict:
             body = await request.json()
-            alignment_request = AlignArgs(**body)  # Validate using the Pydantic model
-
-
-            return {"hello_world": "hello_world"}
+            align_args = AlignArgs(**body)  # Validate using the Pydantic model
+            align = Align(align_args, None)
+            align_results = await align.exec()
+            return JSONResponse(align_results.model_dump_json(indent=2))
 
     async def exec( self ) -> None:
         app = FastAPI()
