@@ -4,7 +4,8 @@ from typing import Optional
 # pip modules
 import pydicom    
 import aioshutil
-from mi_py_essentials import CliApp, Function, AsyncUtils
+from mi_py_essentials import CliApp, Function, AsyncUtils#
+from mi_py_essentials.packager import Packager
 # local
 from .dcm_dir import DcmDir
 from .align_results import AlignResults
@@ -21,6 +22,10 @@ class App( Functor ):
     def __init__(self, args:list[str]|None=None) -> None:
         super().__init__()
         self._args = args
+        
+    async def package( self, output_zip="dist/mi_py_dcm_aligner.zip" ):
+        args =  Packager.Args( output_zip=output_zip, requirements_file="requirements.txt", additional_files={ "README.md": "README.md" } )
+        await Packager(args).exec()
         
     async def start_server( self,  host:str="127.0.0.1", port:int=8000, reload:bool=False ) -> None:
         from .web_service import Webservice
@@ -58,5 +63,7 @@ class App( Functor ):
         cli_app.add_function( self.align )
         cli_app.add_function( self.render )
         cli_app.add_function( self.start_server )
+        cli_app.add_function( self.package )
+        cli_app.set_default_function( "start_server" )
         await cli_app.exec()
         
