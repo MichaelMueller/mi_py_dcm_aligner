@@ -29,8 +29,6 @@ if (-Not (Test-Path $PyExe)) {
     & $PyExe -m pip install -r .\requirements.txt --no-warn-script-location
 
     Write-Host "Setup complete!"
-} else {
-    Write-Host "Setup already exists. Skipping setup."
 }
 
 # Run the Python script
