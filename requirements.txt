@@ -9,4 +9,4 @@ pyinstaller
 aioshutil
 fastapi[standard]
 uvicorn
-mi_py_essentials @ git+https://github.com/MichaelMueller/mi_py_essentials.git
+python-dotenv
