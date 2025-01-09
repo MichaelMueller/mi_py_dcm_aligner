@@ -17,7 +17,7 @@ if not parent_path in sys.path:
 from dicom import DcmSeriesDataSet, parse_dir, create_dicom_series, create_dcm_series_from_pngs
 from aiofiles_ext import find_files_with_ext, create_temp_folder
 from env import get_or_ask_and_wait_for_param
-import image_3d_tools
+import image_3d_tools, log
 
 class Args(DcmSeriesDataSet):    
     series_index:int
@@ -82,7 +82,7 @@ def start_web_service():
     host = get_or_ask_and_wait_for_param("HOST", default="127.0.0.1", value_type=str)
     port = get_or_ask_and_wait_for_param("PORT", default=8000, value_type=int)
     dev = get_or_ask_and_wait_for_param("DEV", default="False", value_type=lambda x: x.lower() == "true")
-    log_level = get_or_ask_and_wait_for_param("LOG_LEVEL", default="info", value_type=str)
+    log_level, _ = log.setup_from_env()
           
     module_name = os.path.splitext( os.path.basename(__file__) ) [0]
     app_string = module_name+":dev_web_service" if dev else module_name+":web_service"
