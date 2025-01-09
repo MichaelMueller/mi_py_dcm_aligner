@@ -41,7 +41,7 @@ async def _get_or_ask_for_param(param_name, default=None, value_type=str):
 
         # Save to .env file
         async with aio_open(".env", "a") as env_file:
-            env_file.write(f"{param_name}={user_input}\n")
+            await env_file.write(f"{param_name}={user_input}\n")
 
     else:
         value = value_type(value)

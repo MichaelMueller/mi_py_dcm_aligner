@@ -10,3 +10,6 @@ aioshutil
 fastapi[standard]
 uvicorn
 python-dotenv
+aiofiles
+aioshutil
+aioconsole
